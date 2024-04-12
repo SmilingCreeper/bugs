@@ -3,8 +3,8 @@ session_start();
   
 // 连接到数据库（请根据实际情况修改这些值）  
 $servername = "localhost";  
-$username = "your_username";  
-$password = "your_password";  
+$username = "SmilingCreeper";  
+$password = "20130203";  
 $dbname = "your_database";  
   
 // 创建连接  
