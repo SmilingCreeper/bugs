@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message .= "重现步骤:\n$stepsToReproduce\n";  
   
     // 收件人的电子邮件地址  
-    $to = "your-email@example.com";  
+    $to = "sh_xjl2022@163.com";  
   
     // 发件人的电子邮件地址（这里使用用户提交的邮箱，但通常建议使用固定的发件人地址）  
     $from = $email;  
