@@ -22,21 +22,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message .= "Bug 描述:\n$bugDescription\n";  
     $message .= "重现步骤:\n$stepsToReproduce\n";  
   
-    // 收件人的电子邮件地址  
-    $to = "sh_xjl2022@163.com";  
-  
-    // 发件人的电子邮件地址（这里使用用户提交的邮箱，但通常建议使用固定的发件人地址）  
-    $from = $email;  
+    // 收件人的电子邮件地址（替换为实际的邮箱地址）  
+    $to = "your-support-email@example.com";  
   
     // 邮件头部信息  
-    $headers = "From: $from\r\n";  
+    $headers = "From: Bug反馈系统 <noreply@yourdomain.com>\r\n";  
     $headers .= "Reply-To: $email\r\n";  
     $headers .= "MIME-Version: 1.0\r\n";  
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";  
   
     // 发送邮件  
     if (mail($to, $subject, $message, $headers)) {  
-        echo "Bug 反馈已提交，感谢您的反馈！";  
+        echo "Bug 反馈已发送至邮箱，感谢您的反馈！";  
     } else {  
         echo "发送邮件时出错，请稍后再试。";  
     }  
