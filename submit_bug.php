@@ -1,39 +1,47 @@
 <?php  
-session_start();  
+// 检查是否是通过 POST 方法提交的表单  
+if ($_SERVER["REQUEST_METHOD"] == "POST") {  
+    // 获取表单数据  
+    $name = $_POST["name"];  
+    $email = $_POST["email"];  
+    $bugDescription = $_POST["bug-description"];  
+    $stepsToReproduce = $_POST["steps-to-reproduce"];  
   
-// 连接到数据库（请根据实际情况修改这些值）  
-$servername = "localhost";  
-$username = "SmilingCreeper";  
-$password = "20130203";  
-$dbname = "your_database";  
+    // 数据验证和清理（在实际应用中非常重要）  
+    $name = htmlspecialchars($name);  
+    $email = htmlspecialchars($email);  
+    $bugDescription = htmlspecialchars($bugDescription);  
+    $stepsToReproduce = htmlspecialchars($stepsToReproduce);  
   
-// 创建连接  
-$conn = new mysqli($servername, $username, $password, $dbname);  
+    // 邮件主题  
+    $subject = "新的Bug反馈";  
   
-// 检查连接  
-if ($conn->connect_error) {  
-    die("Connection failed: " . $conn->connect_error);  
-}  
+    // 构建邮件正文  
+    $message = "姓名: $name\n";  
+    $message .= "邮箱: $email\n";  
+    $message .= "Bug 描述:\n$bugDescription\n";  
+    $message .= "重现步骤:\n$stepsToReproduce\n";  
   
-// 验证用户是否登录  
-if (!isset($_SESSION['username'])) {  
-    header("Location: login.php"); // 重定向到登录页面  
-    exit();  
-}  
+    // 收件人的电子邮件地址  
+    $to = "your-email@example.com";  
   
-// 收集表单数据  
-$title = $conn->real_escape_string($_POST['title']);  
-$description = $conn->real_escape_string($_POST['description']);  
-$reporter = $conn->real_escape_string($_SESSION['username']);  
+    // 发件人的电子邮件地址（这里使用用户提交的邮箱，但通常建议使用固定的发件人地址）  
+    $from = $email;  
   
-// 插入数据到数据库  
-$sql = "INSERT INTO bugs (title, description, reporter) VALUES ('$title', '$description', '$reporter')";  
+    // 邮件头部信息  
+    $headers = "From: $from\r\n";  
+    $headers .= "Reply-To: $email\r\n";  
+    $headers .= "MIME-Version: 1.0\r\n";  
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";  
   
-if ($conn->query($sql) === TRUE) {  
-    echo "Bug submitted successfully.";  
+    // 发送邮件  
+    if (mail($to, $subject, $message, $headers)) {  
+        echo "Bug 反馈已提交，感谢您的反馈！";  
+    } else {  
+        echo "发送邮件时出错，请稍后再试。";  
+    }  
 } else {  
-    echo "Error: " . $sql . "<br>" . $conn->error;  
+    // 如果不是通过 POST 方法提交，显示错误信息  
+    echo "错误：无效的请求方法。";  
 }  
-  
-$conn->close();  
 ?>
